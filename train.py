@@ -39,7 +39,7 @@ def train(num_epoch, net, criterion, optimizer, dataloader):
     correct = 0
     total = 0
     pbar = tqdm(enumerate(dataloader), total=len(dataloader))
-    for batch_idx, (inputs, targets) in:
+    for batch_idx, (inputs, targets) in pbar:
       inputs, targets = inputs.to(device), targets.to(device)
       outputs = net(inputs)
       loss = criterion(outputs, targets)
