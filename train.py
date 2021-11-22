@@ -53,7 +53,7 @@ def train(num_epoch, net, criterion, optimizer, dataloader):
         outputs = outputs.argmax(dim=1)
         correct += (targets == outputs).sum()
         total += inputs.size(0)
-      pbar.set_description(f"[{epoch}/{num_epoch}] Loss: {train_loss / total}, Accuracy: {correct / total}")
+      pbar.set_description(f"[{epoch}/{num_epoch}] Loss: {train_loss / total:.4f}, Accuracy: {correct / total:.4f}")
 
 def test(net, criterion, dataloader):
   net.eval()
@@ -72,11 +72,8 @@ def test(net, criterion, dataloader):
       output = output.argmax(dim=1)
       correct += (target == output).sum()
       num_data += data.size(0)
-
-    test_loss /= num_data
-    accuracy = correct / num_data
     
-    pbar.set_description(f"Test set: Average loss: {test_loss:.4f}, Accuracy: {accuracy:.2f}, Time cost: {time() - cur}")
+      pbar.set_description(f"Test set: Average loss: {test_loss / num_data:.4f}, Accuracy: {correct / num_data:.4f}, Time cost: {time() - cur:.4f}")
 
 def pruning(net):
   for name, module in net.named_modules():
