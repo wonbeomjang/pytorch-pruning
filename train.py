@@ -64,7 +64,8 @@ def test(net, criterion, dataloader):
 
 
   with torch.no_grad():
-    for data, target in tqdm(dataloader, total=len(dataloader)):
+    pbar = tqdm(dataloader, total=len(dataloader))
+    for data, target in pbar:
       data, target = data.to(device), target.to(device)
       output = net(data)
       test_loss += criterion(output, target).data
@@ -74,7 +75,8 @@ def test(net, criterion, dataloader):
 
     test_loss /= num_data
     accuracy = correct / num_data
-    print(f'Test set: Average loss: {test_loss:.4f}, Accuracy: {accuracy:.2f}, Time cost: {time() - cur}')
+    
+    pbar.set_description(f"Test set: Average loss: {test_loss:.4f}, Accuracy: {accuracy:.2f}, Time cost: {time() - cur}")
 
 def pruning(net):
   for name, module in net.named_modules():
