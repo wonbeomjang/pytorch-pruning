@@ -35,11 +35,11 @@ testloader = torch.utils.data.DataLoader(testset, batch_size=64, shuffle=False, 
 def train(num_epoch, net, criterion, optimizer, dataloader):
   net = net.train()
   for epoch in range(num_epoch):
-    print('\nEpoch: %d' % epoch)
     train_loss = 0
     correct = 0
     total = 0
-    for batch_idx, (inputs, targets) in tqdm(enumerate(dataloader), total=len(dataloader)):
+    pbar = tqdm(enumerate(dataloader), total=len(dataloader))
+    for batch_idx, (inputs, targets) in:
       inputs, targets = inputs.to(device), targets.to(device)
       outputs = net(inputs)
       loss = criterion(outputs, targets)
@@ -53,8 +53,7 @@ def train(num_epoch, net, criterion, optimizer, dataloader):
         outputs = outputs.argmax(dim=1)
         correct += (targets == outputs).sum()
         total += inputs.size(0)
-
-    print(f'Epoch {epoch} Loss: {train_loss / total}, Accuracy: {correct / total}')
+      pbar.set_description(f"[{epoch}/{num_epoch}] Loss: {train_loss / total}, Accuracy: {correct / total}")
 
 def test(net, criterion, dataloader):
   net.eval()
